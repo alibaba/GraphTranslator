@@ -3,7 +3,7 @@
 Code of our The Web Conference 2024 paper
 [GraphTranslator: Aligning Graph Model to Large Language Model for Open-ended Tasks](https://arxiv.org/pdf/2402.07197.pdf)
 
-Author: Mengmei Zhang, [Mingwei Sun](https://github.com/smw1996), [Peng Wang](https://github.com/PaulWongDlut), [Shen Fan](https://www.findshine.com), [Yanhu Mo](https://github.com/guyuisland), Xiaoxiao Xu, Hong Liu, Cheng Yang, Chuan Shi
+Authors: [Mengmei Zhang](https://scholar.google.com/citations?hl=en&user=8Qokm1IAAAAJ), [Mingwei Sun](https://github.com/smw1996), [Peng Wang](https://github.com/PaulWongDlut), [Shen Fan](https://www.findshine.com), [Yanhu Mo](https://github.com/guyuisland), [Xiaoxiao Xu](https://openreview.net/profile?id=~Xiaoxiao_Xu1), [Hong Liu](https://openreview.net/profile?id=~Hong_Liu10), [Cheng Yang](https://scholar.google.com/citations?user=OlLjVUcAAAAJ&hl=zh-CN), [Chuan Shi](http://www.shichuan.org/)
 
 ## Model Pipeline
 
