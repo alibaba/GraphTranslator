@@ -1,0 +1,6 @@
+.idea/
+.git/
+checkpoint/
+**/.DS_store
+*.pyc
+*.tar.gz
