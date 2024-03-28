@@ -45,7 +45,6 @@ pip install -r requirements.txt
 
 ```
 pip install -U huggingface_hub
-pip install huggingface-cli
 ```
 
 **ArXiv Dataset**
