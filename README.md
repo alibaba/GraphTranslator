@@ -41,19 +41,17 @@ pip install -r requirements.txt
 ```
 
 ### Datasets & Models
-  Download datasets and model checkpoints used in this project with huggingface api (recommend).
 
-```
-pip install -U huggingface_hub
-pip install huggingface-cli
-```
+Download datasets and model checkpoints used in this project with huggingface.
 
 **ArXiv Dataset**
 
 Download files `bert_node_embeddings.pt`, `graphsage_node_embeddings.pt` and `titleabs.tsv` from [link](https://huggingface.co/datasets/Hualouz/GraphTranslator-arixv) and insert them to `./data/arxiv`.
 
 ```
-huggingface-cli download --resume-download --local-dir-use-symlinks False --repo-type dataset Hualouz/GraphTranslator-arxiv --local-dir ./data/arxiv
+cd ./data/arxiv
+git lfs install
+git clone git@hf.co:datasets/Hualouz/GraphTranslator-arxiv
 ```
 
 **Translator Model**
@@ -61,8 +59,9 @@ huggingface-cli download --resume-download --local-dir-use-symlinks False --repo
 Download `bert-base-uncased.zip` from [link](https://huggingface.co/Hualouz/Qformer/tree/main) and unzip it to `./Translator/models`.
 
 ```
-huggingface-cli download --resume-download Hualouz/Qformer --local-dir ./Translator/models --local-dir-use-symlinks False
 cd Translator/models/
+git lfs install
+git clone git@hf.co:Hualouz/Qformer
 unzip bert-base-uncased.zip
 ```
 
@@ -71,7 +70,9 @@ unzip bert-base-uncased.zip
 Download the `ChatGLM2-6B` model from [link](https://huggingface.co/THUDM/chatglm2-6b) and insert it to `./Translator/models` 
 
 ```
-huggingface-cli download --resume-download THUDM/chatglm2-6b --local-dir ./Translator/models/chatglm2-6b --local-dir-use-symlinks False
+cd ./Translator/models
+git lfs install
+git clone git@hf.co:THUDM/chatglm2-6b
 ```
 
 ### Run
@@ -147,6 +148,7 @@ python eval.py
 ```
 
 ## Acknowledgements
+
 Thanks to all the previous works that we used and that inspired us.
 
 - [LAVIS](https://github.com/salesforce/LAVIS): The logical architecture of LAVIS library served as the foundation for our code development.
