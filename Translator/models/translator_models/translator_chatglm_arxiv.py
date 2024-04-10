@@ -97,8 +97,8 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
         if answer is None:
             def get_ids():
                 for text in text_input:
-                    a_ids = [IMAGE_TOKEN_ID] * nvtoken + tokenizer.encode("", add_special_tokens=False)
-                    b_ids = tokenizer.encode(text, add_special_tokens=False)
+                    a_ids = [IMAGE_TOKEN_ID] * nvtoken + tokenizer.encode("", add_special_tokens=True)
+                    b_ids = tokenizer.encode(text, add_special_tokens=True)
                     yield a_ids, b_ids
         else:
             def get_ids():
