@@ -103,8 +103,8 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
         else:
             def get_ids():
                 for text, ans in zip(text_input, answer):
-                    a_ids = [IMAGE_TOKEN_ID] * nvtoken + tokenizer.encode(text, add_special_tokens=False)
-                    b_ids = tokenizer.encode(ans, add_special_tokens=False)
+                    a_ids = [IMAGE_TOKEN_ID] * nvtoken + tokenizer.encode(text, add_special_tokens=True)
+                    b_ids = tokenizer.encode(ans, add_special_tokens=True)
                     yield a_ids, b_ids
         for a_ids, b_ids in get_ids():
             max_caption_length = self.max_txt_len - (len(a_ids) - nvtoken)
@@ -234,8 +234,16 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
 
             vtokens = self.chatglm2_proj(query_output.last_hidden_state[:, :query_tokens.size(1), :])
 
+            #first summarize and then answer the question
+
+            #input_ids, labels, inputs_embeds = self.prepare_lm_input(
+            #    vtokens=vtokens, text_input=instruction, answer=None
+            #)
+
+            #no summarize, straight Q&A
+
             input_ids, labels, inputs_embeds = self.prepare_lm_input(
-                vtokens=vtokens, text_input=instruction, answer=None
+                vtokens=vtokens, text_input=[qustion], answer=None
             )
 
             from transformers.generation.utils import LogitsProcessorList
@@ -243,17 +251,18 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
             from models.chatglm2.modeling_chatglm import InvalidScoreLogitsProcessor
             logits_processor.append(InvalidScoreLogitsProcessor())
 
-            gen_kwargs = {
-                "max_length": max_length,
-                "min_length": min_length,
-                "num_beams": 1,
-                "do_sample": True,
-                "top_p": top_p,
-                "temperature": temperature,
-                "repetition_penalty": repetition_penalty,
-                "length_penalty": length_penalty,
-                "logits_processor": logits_processor
-            }
+            #gen_kwargs = {
+            #    "max_length": max_length,
+            #    "min_length": min_length,
+            #    "num_beams": 1,
+            #    "do_sample": True,
+            #    "top_p": top_p,
+            #    "temperature": temperature,
+            #    "repetition_penalty": repetition_penalty,
+            #    "length_penalty": length_penalty,
+            #    "logits_processor": logits_processor
+            #}
+            gen_kwargs = {"max_length": 1024}
 
             outputs = self.chatglm2_model.generate(input_ids, inputs_embeds=inputs_embeds, **gen_kwargs)
 
@@ -263,18 +272,19 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
                 response0 = self.chatglm2_tokenizer.decode(outputs_i)
                 response0 = self.chatglm2_model.process_response(response0)
 
-                #先总结再回答
-                if len(response0) > max_length - len(qustion) - 1:
-                    response0 = response0[:max_length - len(qustion) - 1]
-                summary_prompt = prompts[4].format(title, response0, qustion)
-                gen_kwargs = {
-                    "max_length": max_length,
-                    "min_length": 100
-                }
-                response2, history = self.chatglm2_model.chat(tokenizer=self.chatglm2_tokenizer,
-                                                            query=summary_prompt,
-                                                            **gen_kwargs)
-                response_output.append(response2)
+                #first summarize and then answer the question
+                #if len(response0) > max_length - len(qustion) - 1:
+                #    response0 = response0[:max_length - len(qustion) - 1]
+                #summary_prompt = prompts[4].format(title, response0, qustion)
+                #gen_kwargs = {
+                #    "max_length": max_length,
+                #    "min_length": 100
+                #}
+                #response2, history = self.chatglm2_model.chat(tokenizer=self.chatglm2_tokenizer,
+                #                                            query=summary_prompt,
+                #                                            **gen_kwargs)
+                #no summarize, straight Q&A
+                response_output.append(response0)
 
             return response_output
 
