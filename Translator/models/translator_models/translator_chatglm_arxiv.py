@@ -207,7 +207,7 @@ class TranslatorCHATGLMArxiv(TranslatorBase):
         title = samples[3]
         instruction = [prompts[0]] * bs
 
-        question_prompt_pre = prompts[1]
+        question_prompt_pre = prompts[1].format(title)
 
         categories = prompts[2]
 
